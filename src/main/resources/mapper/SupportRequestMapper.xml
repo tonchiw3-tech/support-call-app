@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.supportcall.mapper.SupportRequestMapper">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO requests (room_number, request_content, status, requested_at, created_at, updated_at)
+    VALUES (#{roomNumber}, #{requestContent}, 'pending', NOW(), NOW(), NOW())
+  </insert>
+  <select id="findAll" resultType="com.example.supportcall.model.SupportRequest">SELECT * FROM requests WHERE status &lt;&gt; 'completed' ORDER BY requested_at DESC, id DESC</select>
+  <select id="findHistory" resultType="com.example.supportcall.model.SupportRequest">SELECT * FROM requests WHERE status = 'completed' ORDER BY completed_at DESC, id DESC</select>
+  <select id="findLatestByRoom" resultType="com.example.supportcall.model.SupportRequest">SELECT * FROM requests WHERE room_number=#{roomNumber} ORDER BY requested_at DESC, id DESC LIMIT 1</select>
+  <update id="confirm">UPDATE requests SET status='confirmed', confirmed_at=NOW(), updated_at=NOW() WHERE id=#{id} AND status='pending'</update>
+  <update id="complete">UPDATE requests SET status='completed', completed_at=NOW(), updated_at=NOW() WHERE id=#{id} AND status='confirmed'</update>
+</mapper>

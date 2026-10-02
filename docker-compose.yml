@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: support-call-db
+    environment:
+      MYSQL_DATABASE: support_call_app
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports: ["3306:3306"]
+    volumes: ["support-call-mysql:/var/lib/mysql", "./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro"]
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+volumes:
+  support-call-mysql:
