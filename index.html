@@ -15,6 +15,11 @@
     h1 { margin:0; font-size:clamp(2rem,5vw,3.1rem); line-height:1.25; letter-spacing:.04em; }
     .content { margin-top:26px; padding:28px; background:#fff; border:1px solid #e2ebf0; border-radius:20px; box-shadow:0 8px 24px #17324d22; }
     h2 { margin:0 0 18px; font-size:clamp(1.35rem,3vw,1.75rem); }
+    .room-field { margin:0 0 26px; }
+    .room-label { display:block; margin-bottom:8px; font-size:1.25rem; font-weight:bold; }
+    .room-input { width:min(100%,360px); min-height:68px; padding:12px 16px; color:var(--ink); border:3px solid var(--line); border-radius:15px; font-size:1.55rem; font-weight:bold; }
+    .room-input:focus { outline:4px solid #f3c95b; outline-offset:3px; border-color:var(--blue); }
+    .room-error { min-height:29px; margin:6px 0 0; color:#b42318; font-size:1.05rem; font-weight:bold; }
     .request-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:0; padding:0; list-style:none; }
     .request-button { position:relative; width:100%; min-height:82px; padding:16px 52px 16px 20px; color:var(--ink); text-align:left; background:#fff; border:3px solid var(--line); border-radius:15px; cursor:pointer; font-size:1.2rem; font-weight:bold; line-height:1.4; }
     .request-button::after { content:""; position:absolute; top:50%; right:18px; width:22px; height:22px; border:3px solid #aabcc9; border-radius:50%; transform:translateY(-50%); }
@@ -40,6 +45,11 @@
     </header>
 
     <section class="content" aria-labelledby="request-title">
+      <div class="room-field">
+        <label class="room-label" for="room-number">部屋番号</label>
+        <input id="room-number" class="room-input" type="text" inputmode="numeric" autocomplete="off" placeholder="例：301" aria-describedby="room-error">
+        <p id="room-error" class="room-error" aria-live="polite"></p>
+      </div>
       <h2 id="request-title">依頼する内容</h2>
       <ul class="request-list">
         <li><button type="button" class="request-button" aria-pressed="false">買い物（売店へ買い物に行ってほしい）</button></li>
@@ -61,17 +71,28 @@
 
   <script>
     const buttons = document.querySelectorAll('.request-button');
+    const roomInput = document.querySelector('#room-number');
+    const roomError = document.querySelector('#room-error');
     const submit = document.querySelector('#submit');
     const summary = document.querySelector('#summary');
     const message = document.querySelector('#message');
     let selected = null;
+
+    function updateSubmitState() {
+      submit.disabled = !selected;
+    }
+
+    roomInput.addEventListener('input', () => {
+      roomError.textContent = '';
+      updateSubmitState();
+    });
 
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
         if (selected) selected.setAttribute('aria-pressed', 'false');
         selected = button;
         selected.setAttribute('aria-pressed', 'true');
-        submit.disabled = false;
+        updateSubmitState();
         summary.textContent = `選択中：${selected.textContent}`;
         summary.classList.add('selected');
         message.classList.remove('visible');
@@ -79,7 +100,18 @@
     });
 
     submit.addEventListener('click', () => {
-      if (selected) message.classList.add('visible');
+      const roomNumber = roomInput.value.trim();
+      if (!roomNumber) {
+        roomError.textContent = '部屋番号を入力してください';
+        roomInput.focus();
+        updateSubmitState();
+        return;
+      }
+      if (!selected) return;
+
+      sessionStorage.setItem('roomNumber', roomNumber);
+      sessionStorage.setItem('requestContent', selected.textContent);
+      window.location.href = './staff.html';
     });
   </script>
 </body>

@@ -182,15 +182,25 @@
   </main>
 
   <script>
-    const requests = [
-      { room: '305号室', text: 'シーツ交換をしてほしい', time: '21:55', status: '未確認' },
-      { room: '208号室', text: 'お水を持ってきてほしい', time: '22:03', status: '未確認' },
-      { room: '412号室', text: '家族に電話してほしい', time: '22:10', status: '未確認' }
-    ];
-
     const requestList = document.querySelector('#request-list');
+    const roomNumber = sessionStorage.getItem('roomNumber');
+    const requestContent = sessionStorage.getItem('requestContent');
+    const requests = roomNumber && requestContent ? [{
+      room: `${roomNumber}号室`,
+      text: requestContent,
+      time: new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' }),
+      status: '未確認'
+    }] : [];
 
     function renderRequests() {
+      if (requests.length === 0) {
+        const empty = document.createElement('li');
+        empty.className = 'request-card';
+        empty.textContent = '現在、依頼はありません';
+        requestList.replaceChildren(empty);
+        return;
+      }
+
       requestList.replaceChildren(...requests.map((request, index) => {
         const item = document.createElement('li');
         item.className = 'request-card';
