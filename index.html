@@ -5,114 +5,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>サポートコール</title>
   <style>
-    :root { --blue:#1769aa; --dark:#123f67; --ink:#17324d; --line:#c6d5e0; --cream:#fffaf2; }
+    :root { --page-bg:#FFFDF7; --heading:#1F3A5F; --text:#222; --button:#2F6FA3; --button-text:#FFF; --selected-bg:#EAF4FB; --border:#AEB8C2; --attention:#B23A48; --completed:#35652D; --completed-bg:#F0F8EE; }
     * { box-sizing:border-box; }
-    body { margin:0; background:var(--cream); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic",Meiryo,sans-serif; font-size:18px; line-height:1.6; }
+    body { margin:0; color:var(--text); background:var(--page-bg); font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic",Meiryo,sans-serif; font-size:18px; line-height:1.6; }
     button { font:inherit; }
     .page { width:min(920px,calc(100% - 24px)); margin:auto; padding:24px 0 48px; }
-    .hero { padding:30px 28px; color:#fff; background:linear-gradient(135deg,var(--blue),var(--dark)); border-radius:20px; box-shadow:0 8px 24px #17324d22; }
-    .hero p { margin:6px 0 0; font-size:clamp(1.2rem,3vw,1.5rem); font-weight:bold; }
-    h1 { margin:0; font-size:clamp(2rem,5vw,3.1rem); line-height:1.25; letter-spacing:.04em; }
-    .content { margin-top:26px; padding:28px; background:#fff; border:1px solid #e2ebf0; border-radius:20px; box-shadow:0 8px 24px #17324d22; }
-    h2 { margin:0 0 18px; font-size:clamp(1.35rem,3vw,1.75rem); }
+    .hero { padding:30px 28px; color:var(--button-text); background:linear-gradient(135deg,var(--button),var(--heading)); border-radius:20px; box-shadow:0 8px 24px rgba(31,58,95,.16); }
+    .hero h1 { margin:0; color:var(--button-text); font-size:clamp(2rem,5vw,3.1rem); line-height:1.25; letter-spacing:.04em; }
+    .hero p { margin:7px 0 0; font-size:clamp(1.2rem,3vw,1.6rem); font-weight:bold; }
+    .content, .mode-selection { margin-top:26px; padding:28px; background:var(--button-text); border:1px solid var(--border); border-radius:20px; box-shadow:0 8px 24px rgba(31,58,95,.16); }
+    h2 { color:var(--heading); }
+    .mode-selection { padding:30px 28px; }
+    .mode-selection h2 { margin:0 0 22px; text-align:center; font-size:clamp(1.5rem,4vw,2rem); }
+    .mode-buttons { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+    .mode-button { min-height:118px; padding:20px; color:var(--button-text); background:var(--button); border:4px solid var(--button); border-radius:18px; box-shadow:0 6px 0 var(--heading); cursor:pointer; font-size:clamp(1.45rem,4vw,2rem); font-weight:bold; }
+    .mode-button.staff { background:var(--heading); border-color:var(--heading); }
+    .mode-button:hover { filter:brightness(.92); }
+    .mode-button:focus-visible, .back-button:focus-visible, .request-button:focus-visible, .submit-button:focus-visible, .action-button:focus-visible, .tab:focus-visible, .calendar-day:focus-visible, .month-button:focus-visible { outline:4px solid var(--attention); outline-offset:3px; }
+    .screen[hidden], .mode-selection[hidden] { display:none; }
+    .screen-title, .section-heading { margin:0 0 20px; color:var(--heading); font-size:clamp(1.4rem,3vw,1.8rem); }
+    .back-button { min-height:56px; margin-top:18px; padding:10px 18px; color:var(--heading); background:var(--button-text); border:3px solid var(--border); border-radius:13px; cursor:pointer; font-size:1.1rem; font-weight:bold; }
     .room-field { margin:0 0 26px; }
     .room-label { display:block; margin-bottom:8px; font-size:1.25rem; font-weight:bold; }
-    .room-input { width:min(100%,360px); min-height:68px; padding:12px 16px; color:var(--ink); border:3px solid var(--line); border-radius:15px; font-size:1.55rem; font-weight:bold; }
-    .room-input:focus { outline:4px solid #f3c95b; outline-offset:3px; border-color:var(--blue); }
-    .room-error { min-height:29px; margin:6px 0 0; color:#b42318; font-size:1.05rem; font-weight:bold; }
-    .request-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:0; padding:0; list-style:none; }
-    .request-button { position:relative; width:100%; min-height:82px; padding:16px 52px 16px 20px; color:var(--ink); text-align:left; background:#fff; border:3px solid var(--line); border-radius:15px; cursor:pointer; font-size:1.2rem; font-weight:bold; line-height:1.4; }
-    .request-button::after { content:""; position:absolute; top:50%; right:18px; width:22px; height:22px; border:3px solid #aabcc9; border-radius:50%; transform:translateY(-50%); }
-    .request-button:hover, .request-button[aria-pressed="true"] { border-color:var(--blue); }
-    .request-button:focus-visible, .submit-button:focus-visible { outline:4px solid #f3c95b; outline-offset:3px; }
-    .request-button[aria-pressed="true"] { color:var(--dark); background:#eaf5fc; box-shadow:0 0 0 2px #1769aa22; }
-    .request-button[aria-pressed="true"]::after { background:var(--blue); border-color:var(--blue); box-shadow:inset 0 0 0 5px #eaf5fc; }
-    .summary { min-height:42px; margin:22px 0 24px; padding:9px 14px; color:#53697c; background:#f7fafc; border-left:5px solid var(--line); }
-    .summary.selected { color:var(--dark); background:#eaf5fc; border-left-color:var(--blue); font-weight:bold; }
-    .submit-button { display:block; width:min(100%,520px); min-height:76px; margin:auto; padding:15px 22px; color:#fff; background:var(--blue); border:0; border-radius:15px; box-shadow:0 5px 0 var(--dark); cursor:pointer; font-size:1.35rem; font-weight:bold; }
-    .submit-button:hover:not(:disabled) { background:var(--dark); }
-    .submit-button:disabled { opacity:.5; cursor:not-allowed; box-shadow:none; }
-    .message { display:none; margin:24px 0 0; padding:20px; color:#146c4a; background:#eaf8f1; border:2px solid #95d4b8; border-radius:14px; font-size:1.3rem; font-weight:bold; text-align:center; }
+    .room-input { width:min(100%,360px); min-height:68px; padding:12px 16px; color:var(--text); border:3px solid var(--border); border-radius:15px; font-size:1.55rem; font-weight:bold; }
+    .room-input:focus { outline:4px solid var(--attention); outline-offset:3px; border-color:var(--button); }
+    .room-error { min-height:29px; margin:6px 0 0; color:var(--attention); font-size:1.05rem; font-weight:bold; }
+    .request-list { display:grid; gap:18px; margin:0; padding:0; list-style:none; }
+    .patient-request-list { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .request-button { position:relative; width:100%; min-height:82px; padding:16px 52px 16px 20px; color:var(--text); text-align:left; background:var(--button-text); border:3px solid var(--border); border-radius:15px; cursor:pointer; font-size:1.2rem; font-weight:bold; line-height:1.4; }
+    .request-button::after { content:""; position:absolute; top:50%; right:18px; width:22px; height:22px; border:3px solid var(--border); border-radius:50%; transform:translateY(-50%); }
+    .request-button:hover, .request-button[aria-pressed="true"] { border-color:var(--button); }
+    .request-button[aria-pressed="true"] { color:var(--heading); background:var(--selected-bg); box-shadow:0 0 0 2px rgba(47,111,163,.2); }
+    .request-button[aria-pressed="true"]::after { background:var(--button); border-color:var(--button); box-shadow:inset 0 0 0 5px var(--selected-bg); }
+    .summary { min-height:42px; margin:22px 0 24px; padding:9px 14px; color:var(--text); background:var(--page-bg); border-left:5px solid var(--border); }
+    .summary.selected { color:var(--heading); background:var(--selected-bg); border-left-color:var(--button); font-weight:bold; }
+    .submit-button { display:block; width:min(100%,520px); min-height:76px; margin:auto; padding:15px 22px; color:var(--button-text); background:var(--button); border:0; border-radius:15px; box-shadow:0 5px 0 var(--heading); cursor:pointer; font-size:1.35rem; font-weight:bold; }
+    .submit-button:hover:not(:disabled), .action-button:hover:not(:disabled) { filter:brightness(.9); }
+    .submit-button:disabled, .action-button:disabled { color:var(--heading); background:var(--selected-bg); border:2px solid var(--border); cursor:not-allowed; box-shadow:none; }
+    .message { display:none; margin:24px 0 0; padding:20px; color:var(--heading); background:var(--selected-bg); border:2px solid var(--button); border-radius:14px; font-size:1.3rem; font-weight:bold; text-align:center; }
     .message.visible { display:block; }
-    @media (max-width:620px) { .page{padding-top:10px;} .hero,.content{padding:22px 18px;border-radius:16px;} .request-list{grid-template-columns:1fr;gap:11px;} .request-button{min-height:72px;font-size:1.12rem;} }
+    .completion-panel { display:none; margin-top:24px; padding:24px; color:var(--heading); background:var(--completed-bg); border:3px solid #5C8D4E; border-radius:16px; text-align:center; }
+    .completion-panel.visible { display:block; }
+    .completion-panel h2 { margin:0 0 12px; color:var(--completed); font-size:clamp(1.5rem,4vw,2rem); }
+    .completion-content { margin:8px 0; font-size:clamp(1.1rem,3vw,1.4rem); font-weight:bold; }
+    .completion-time { margin:12px 0 0; color:var(--completed); font-size:clamp(1.35rem,4vw,1.9rem); font-weight:bold; line-height:1.4; }
+    .tabs { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:22px; }
+    .tab { min-height:60px; padding:10px 14px; color:var(--heading); background:var(--button-text); border:3px solid var(--border); border-radius:14px; cursor:pointer; font-size:1.2rem; font-weight:bold; }
+    .tab[aria-selected="true"] { color:var(--button-text); background:var(--button); border-color:var(--button); }
+    .request-card { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px; align-items:center; padding:22px; border:3px solid var(--border); border-radius:18px; background:var(--button-text); }
+    .request-card.completed { border-color:#7AA870; background:var(--completed-bg); }
+    .room-number { margin:0; color:var(--heading); font-size:clamp(1.5rem,4vw,2.1rem); font-weight:bold; line-height:1.3; }
+    .request-text { margin:7px 0 9px; font-size:clamp(1.2rem,3vw,1.55rem); font-weight:bold; line-height:1.45; }
+    .request-time, .completion-time { margin:0; font-size:1.05rem; font-weight:bold; }
+    .status { display:inline-block; margin-top:12px; padding:5px 13px; border-radius:999px; font-size:1.05rem; font-weight:bold; }
+    .status.pending { color:var(--attention); background:var(--selected-bg); border:2px solid var(--attention); }
+    .status.confirmed { color:var(--heading); background:var(--selected-bg); border:2px solid var(--button); }
+    .status.completed { color:var(--completed); background:var(--completed-bg); border:2px solid #5C8D4E; }
+    .action-stack { display:grid; gap:12px; }
+    .action-button { min-width:150px; min-height:64px; padding:12px 18px; color:var(--button-text); background:var(--button); border:0; border-radius:14px; box-shadow:0 5px 0 var(--heading); cursor:pointer; font-size:1.2rem; font-weight:bold; }
+    .action-button.complete { background:var(--completed); box-shadow:0 5px 0 #24481F; }
+    .empty { display:block; padding:22px; border:3px dashed var(--border); border-radius:16px; font-size:1.2rem; font-weight:bold; text-align:center; }
+    .calendar-header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; }
+    .month-label { margin:0; color:var(--heading); font-size:clamp(1.5rem,4vw,2rem); }
+    .month-button { min-width:78px; min-height:54px; color:var(--heading); background:var(--button-text); border:3px solid var(--border); border-radius:12px; cursor:pointer; font-size:1.15rem; font-weight:bold; }
+    .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+    .weekday { padding:6px 2px; color:var(--heading); text-align:center; font-weight:bold; }
+    .calendar-day { min-height:76px; padding:6px 3px; color:var(--text); background:var(--button-text); border:2px solid var(--border); border-radius:10px; cursor:pointer; font-weight:bold; }
+    .calendar-day.empty-day { visibility:hidden; cursor:default; }
+    .calendar-day.today { border:4px solid var(--attention); }
+    .calendar-day.selected { background:var(--selected-bg); border-color:var(--button); }
+    .day-number { display:block; font-size:1.2rem; }
+    .day-count { display:block; margin-top:4px; color:var(--heading); font-size:.95rem; }
+    .day-details { margin-top:20px; padding:18px; background:var(--page-bg); border-left:5px solid var(--button); border-radius:8px; }
+    .day-details h3 { margin:0 0 12px; color:var(--heading); font-size:1.35rem; }
+    .day-details p { margin:8px 0; font-size:1.1rem; font-weight:bold; }
+    @media (max-width:620px) { .page{padding-top:10px;} .hero,.content,.mode-selection{padding:22px 18px;border-radius:16px;} .mode-buttons,.patient-request-list{grid-template-columns:1fr;gap:12px;} .mode-button{min-height:92px;} .request-button{min-height:72px;font-size:1.12rem;} .request-card{grid-template-columns:1fr;gap:16px;padding:18px;} .action-button{width:100%;} .calendar-grid{gap:3px;} .calendar-day{min-height:68px;padding:4px 1px;} .day-count{font-size:.8rem;} }
   </style>
 </head>
 <body>
   <main class="page">
-    <header class="hero">
-      <h1>サポートコール</h1>
-      <p>サポートナースに依頼する内容を選んでください</p>
-    </header>
-
-    <section class="content" aria-labelledby="request-title">
-      <div class="room-field">
-        <label class="room-label" for="room-number">部屋番号</label>
-        <input id="room-number" class="room-input" type="text" inputmode="numeric" autocomplete="off" placeholder="例：301" aria-describedby="room-error">
-        <p id="room-error" class="room-error" aria-live="polite"></p>
-      </div>
-      <h2 id="request-title">依頼する内容</h2>
-      <ul class="request-list">
-        <li><button type="button" class="request-button" aria-pressed="false">買い物（売店へ買い物に行ってほしい）</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">掃除をしてほしい</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">お風呂の準備をしてほしい</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">ゴミを捨ててほしい</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">電気がつかない</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">物を探してほしい</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">トイレを片付けてほしい</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">家族に電話してほしい</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">シーツ交換をしてほしい</button></li>
-        <li><button type="button" class="request-button" aria-pressed="false">その他</button></li>
-      </ul>
-      <p id="summary" class="summary" aria-live="polite">依頼内容を選ぶと、ここに表示されます。</p>
-      <button id="submit" class="submit-button" type="button" disabled>この内容で依頼する</button>
-      <p id="message" class="message" role="status">サポートナースに依頼しました</p>
-    </section>
+    <header class="hero"><h1>サポートコール</h1><p id="hero-subtitle">ご利用になる画面を選んでください</p></header>
+    <section id="mode-selection" class="mode-selection" aria-labelledby="mode-title"><h2 id="mode-title">ご利用になる画面を選択してください</h2><div class="mode-buttons"><button id="patient-mode" class="mode-button" type="button">患者用</button><button id="staff-mode" class="mode-button staff" type="button">スタッフ用</button></div></section>
+    <section id="patient-screen" class="screen" hidden aria-labelledby="patient-title"><section class="content"><h2 id="patient-title" class="screen-title">患者用画面</h2><div class="room-field"><label class="room-label" for="room-number">部屋番号</label><input id="room-number" class="room-input" type="text" inputmode="numeric" autocomplete="off" placeholder="例：301" aria-describedby="room-error"><p id="room-error" class="room-error" aria-live="polite"></p></div><h2 class="section-heading">依頼する内容</h2><ul class="request-list patient-request-list"><li><button type="button" class="request-button" aria-pressed="false">買い物（売店へ買い物に行ってほしい）</button></li><li><button type="button" class="request-button" aria-pressed="false">掃除をしてほしい</button></li><li><button type="button" class="request-button" aria-pressed="false">お風呂の準備をしてほしい</button></li><li><button type="button" class="request-button" aria-pressed="false">ゴミを捨ててほしい</button></li><li><button type="button" class="request-button" aria-pressed="false">電気がつかない</button></li><li><button type="button" class="request-button" aria-pressed="false">物を探してほしい</button></li><li><button type="button" class="request-button" aria-pressed="false">トイレを片付けてほしい</button></li><li><button type="button" class="request-button" aria-pressed="false">家族に電話してほしい</button></li><li><button type="button" class="request-button" aria-pressed="false">シーツ交換をしてほしい</button></li><li><button type="button" class="request-button" aria-pressed="false">その他</button></li></ul><p id="summary" class="summary" aria-live="polite">依頼内容を選ぶと、ここに表示されます。</p><button id="submit" class="submit-button" type="button" disabled>この内容で依頼する</button><p id="message" class="message" role="status">サポートナースに依頼しました</p><section id="completion-panel" class="completion-panel" aria-live="polite" aria-labelledby="completion-title"><h2 id="completion-title">ご依頼への対応が完了しました</h2><p id="completion-content" class="completion-content"></p><p id="completion-time" class="completion-time"></p></section></section><button class="back-button" type="button">画面選択に戻る</button></section>
+    <section id="staff-screen" class="screen" hidden aria-labelledby="staff-title"><section class="content"><h2 id="staff-title" class="screen-title">スタッフ用画面</h2><h2 class="section-heading">現在の依頼一覧</h2><div class="tabs" role="tablist" aria-label="依頼の表示切替"><button id="active-tab" class="tab" type="button" role="tab" aria-selected="true">対応中</button><button id="history-tab" class="tab" type="button" role="tab" aria-selected="false">対応履歴</button></div><ul id="request-list" class="request-list" aria-live="polite"></ul></section><section class="content" aria-labelledby="calendar-title"><h2 id="calendar-title" class="section-heading">対応カレンダー</h2><div class="calendar-header"><button id="previous-month" class="month-button" type="button">前月</button><h3 id="month-label" class="month-label"></h3><button id="next-month" class="month-button" type="button">次月</button></div><div id="calendar" class="calendar-grid" aria-label="対応カレンダー"></div><div id="day-details" class="day-details" aria-live="polite">日付を選ぶと、その日の対応履歴を表示します。</div></section><button class="back-button" type="button">画面選択に戻る</button></section>
   </main>
-
   <script>
-    const buttons = document.querySelectorAll('.request-button');
-    const roomInput = document.querySelector('#room-number');
-    const roomError = document.querySelector('#room-error');
-    const submit = document.querySelector('#submit');
-    const summary = document.querySelector('#summary');
-    const message = document.querySelector('#message');
-    let selected = null;
-
-    function updateSubmitState() {
-      submit.disabled = !selected;
-    }
-
-    roomInput.addEventListener('input', () => {
-      roomError.textContent = '';
-      updateSubmitState();
-    });
-
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => {
-        if (selected) selected.setAttribute('aria-pressed', 'false');
-        selected = button;
-        selected.setAttribute('aria-pressed', 'true');
-        updateSubmitState();
-        summary.textContent = `選択中：${selected.textContent}`;
-        summary.classList.add('selected');
-        message.classList.remove('visible');
-      });
-    });
-
-    submit.addEventListener('click', () => {
-      const roomNumber = roomInput.value.trim();
-      if (!roomNumber) {
-        roomError.textContent = '部屋番号を入力してください';
-        roomInput.focus();
-        updateSubmitState();
-        return;
-      }
-      if (!selected) return;
-
-      sessionStorage.setItem('roomNumber', roomNumber);
-      sessionStorage.setItem('requestContent', selected.textContent);
-      window.location.href = './staff.html';
-    });
+    const REQUESTS_KEY='supportCallRequests';
+    const modeSelection=document.querySelector('#mode-selection'),patientScreen=document.querySelector('#patient-screen'),staffScreen=document.querySelector('#staff-screen'),heroSubtitle=document.querySelector('#hero-subtitle');
+    function showScreen(screen){const isPatient=screen==='patient';modeSelection.hidden=true;patientScreen.hidden=!isPatient;staffScreen.hidden=isPatient;heroSubtitle.textContent=isPatient?'サポートナースに依頼する内容を選んでください':'依頼の確認・対応を行ってください';if(!isPatient){migrateLegacyRequest();renderRequests();renderCalendar()}else renderCompletion()}
+    function showModeSelection(){modeSelection.hidden=false;patientScreen.hidden=true;staffScreen.hidden=true;heroSubtitle.textContent='ご利用になる画面を選んでください'}
+    document.querySelector('#patient-mode').addEventListener('click',()=>showScreen('patient'));document.querySelector('#staff-mode').addEventListener('click',()=>showScreen('staff'));document.querySelectorAll('.back-button').forEach(button=>button.addEventListener('click',showModeSelection));
+    function getRequests(){try{return JSON.parse(localStorage.getItem(REQUESTS_KEY)||'[]')}catch(error){return[]}}
+    function saveRequests(requests){localStorage.setItem(REQUESTS_KEY,JSON.stringify(requests))}
+    function formatDateTime(value){return new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value))}
+    function formatCompletion(value){const date=new Date(value);return `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日 ${date.getHours()}時${String(date.getMinutes()).padStart(2,'0')}分にスタッフが対応しました`}
+    const patientButtons=document.querySelectorAll('.patient-request-list .request-button'),roomInput=document.querySelector('#room-number'),roomError=document.querySelector('#room-error'),submit=document.querySelector('#submit'),summary=document.querySelector('#summary'),message=document.querySelector('#message');let selected=null;
+    function renderCompletion(){const room=roomInput.value.trim(),panel=document.querySelector('#completion-panel'),completed=getRequests().filter(request=>request.roomNumber===room&&request.status==='completed').sort((a,b)=>new Date(b.completedAt)-new Date(a.completedAt))[0];if(!room||!completed){panel.classList.remove('visible');return}document.querySelector('#completion-content').textContent=completed.requestContent;document.querySelector('#completion-time').textContent=formatCompletion(completed.completedAt);panel.classList.add('visible')}
+    roomInput.addEventListener('input',()=>{roomError.textContent='';submit.disabled=!selected;renderCompletion()});patientButtons.forEach(button=>button.addEventListener('click',()=>{if(selected)selected.setAttribute('aria-pressed','false');selected=button;selected.setAttribute('aria-pressed','true');submit.disabled=false;summary.textContent=`選択中：${selected.textContent}`;summary.classList.add('selected');message.classList.remove('visible')}));
+    submit.addEventListener('click',()=>{const roomNumber=roomInput.value.trim();if(!roomNumber){roomError.textContent='部屋番号を入力してください';roomInput.focus();return}if(!selected)return;const requests=getRequests(),request={id:`${Date.now()}-${Math.random().toString(36).slice(2,8)}`,roomNumber,requestContent:selected.textContent,requestedAt:new Date().toISOString(),status:'pending',confirmedAt:null,completedAt:null};requests.push(request);saveRequests(requests);sessionStorage.setItem('roomNumber',roomNumber);sessionStorage.setItem('requestContent',selected.textContent);message.classList.add('visible');renderCompletion()});
+    let view='active',calendarDate=new Date(),selectedDateKey=null;const requestList=document.querySelector('#request-list');
+    function migrateLegacyRequest(){if(getRequests().length)return;const room=sessionStorage.getItem('roomNumber'),text=sessionStorage.getItem('requestContent');if(room&&text)saveRequests([{id:`legacy-${Date.now()}`,roomNumber:room,requestContent:text,requestedAt:new Date().toISOString(),status:'pending',confirmedAt:null,completedAt:null}])}
+    function updateRequest(id,changes){saveRequests(getRequests().map(request=>request.id===id?{...request,...changes}:request));renderRequests();renderCalendar()}
+    function renderRequests(){const requests=getRequests().filter(request=>view==='active'?request.status!=='completed':request.status==='completed');if(!requests.length){const empty=document.createElement('li');empty.className='empty';empty.textContent=view==='active'?'現在、対応中の依頼はありません':'対応履歴はありません';requestList.replaceChildren(empty);return}requestList.replaceChildren(...requests.map(request=>{const item=document.createElement('li');item.className=`request-card${request.status==='completed'?' completed':''}`;const details=document.createElement('div'),room=document.createElement('p'),text=document.createElement('p'),time=document.createElement('p'),status=document.createElement('span');room.className='room-number';room.textContent=`${request.roomNumber}号室`;text.className='request-text';text.textContent=request.requestContent;time.className='request-time';time.textContent=`依頼日時 ${formatDateTime(request.requestedAt)}`;status.className=`status ${request.status}`;status.textContent=request.status==='pending'?'未確認':request.status==='confirmed'?'確認済み':'対応済み';details.append(room,text,time,status);if(request.completedAt){const completed=document.createElement('p');completed.className='completion-time';completed.textContent=`対応終了日時 ${formatDateTime(request.completedAt)}`;details.append(completed)}const actions=document.createElement('div');actions.className='action-stack';if(request.status!=='completed'){const confirm=document.createElement('button');confirm.type='button';confirm.className='action-button';confirm.textContent=request.status==='confirmed'?'確認済み':'確認する';confirm.disabled=request.status==='confirmed';confirm.addEventListener('click',()=>updateRequest(request.id,{status:'confirmed',confirmedAt:new Date().toISOString()}));const complete=document.createElement('button');complete.type='button';complete.className='action-button complete';complete.textContent='対応終了';complete.addEventListener('click',()=>updateRequest(request.id,{status:'completed',completedAt:new Date().toISOString()}));actions.append(confirm,complete)}item.append(details,actions);return item}))}
+    function dateKey(value){const date=new Date(value);return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
+    function formatTime(value){return new Intl.DateTimeFormat('ja-JP',{hour:'2-digit',minute:'2-digit'}).format(new Date(value))}
+    function renderCalendar(){const year=calendarDate.getFullYear(),month=calendarDate.getMonth(),completed=getRequests().filter(request=>request.status==='completed'&&request.completedAt);document.querySelector('#month-label').textContent=`${year}年${month+1}月`;const calendar=document.querySelector('#calendar');calendar.replaceChildren();['日','月','火','水','木','金','土'].forEach(day=>{const cell=document.createElement('div');cell.className='weekday';cell.textContent=day;calendar.append(cell)});const firstDay=new Date(year,month,1).getDay(),days=new Date(year,month+1,0).getDate(),today=dateKey(new Date());for(let i=0;i<firstDay;i++){const blank=document.createElement('div');blank.className='calendar-day empty-day';calendar.append(blank)}for(let day=1;day<=days;day++){const key=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`,entries=completed.filter(request=>dateKey(request.completedAt)===key),button=document.createElement('button');button.type='button';button.className=`calendar-day${key===today?' today':''}${key===selectedDateKey?' selected':''}`;button.innerHTML=`<span class="day-number">${day}</span><span class="day-count">${entries.length?`${entries.length}件`:''}</span>`;button.setAttribute('aria-label',`${month+1}月${day}日${entries.length?` 対応${entries.length}件`:''}`);button.addEventListener('click',()=>{selectedDateKey=key;renderCalendar();renderDayDetails(key)});calendar.append(button)}}
+    function renderDayDetails(key){const details=document.querySelector('#day-details'),entries=getRequests().filter(request=>request.status==='completed'&&request.completedAt&&dateKey(request.completedAt)===key);if(!entries.length){details.textContent='この日の対応履歴はありません。';return}const [year,month,day]=key.split('-').map(Number);details.replaceChildren();const heading=document.createElement('h3');heading.textContent=`${month}月${day}日の対応`;details.append(heading);entries.forEach(request=>{const row=document.createElement('p');row.textContent=`${request.roomNumber}号室　${request.requestContent}　${formatTime(request.completedAt)} 対応終了`;details.append(row)})}
+    document.querySelector('#active-tab').addEventListener('click',()=>{view='active';document.querySelector('#active-tab').setAttribute('aria-selected','true');document.querySelector('#history-tab').setAttribute('aria-selected','false');renderRequests()});document.querySelector('#history-tab').addEventListener('click',()=>{view='history';document.querySelector('#active-tab').setAttribute('aria-selected','false');document.querySelector('#history-tab').setAttribute('aria-selected','true');renderRequests()});document.querySelector('#previous-month').addEventListener('click',()=>{calendarDate.setMonth(calendarDate.getMonth()-1);selectedDateKey=null;renderCalendar();document.querySelector('#day-details').textContent='日付を選ぶと、その日の対応履歴を表示します。'});document.querySelector('#next-month').addEventListener('click',()=>{calendarDate.setMonth(calendarDate.getMonth()+1);selectedDateKey=null;renderCalendar();document.querySelector('#day-details').textContent='日付を選ぶと、その日の対応履歴を表示します。'});window.addEventListener('storage',()=>{renderCompletion();if(!staffScreen.hidden){renderRequests();renderCalendar();if(selectedDateKey)renderDayDetails(selectedDateKey)}});renderCalendar();
   </script>
 </body>
 </html>

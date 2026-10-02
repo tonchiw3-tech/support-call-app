@@ -5,242 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>サポートコール｜スタッフ用画面</title>
   <style>
-    :root {
-      --blue: #1769aa;
-      --dark-blue: #123f67;
-      --ink: #17324d;
-      --muted: #53697c;
-      --line: #c6d5e0;
-      --cream: #fffaf2;
-      --pending-bg: #fff5d6;
-      --pending-text: #805b00;
-      --done-bg: #e8f6ed;
-      --done-text: #17613b;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: var(--cream);
-      font-family: -apple-system, BlinkMacSystemFont, "Yu Gothic", Meiryo, sans-serif;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-
-    button { font: inherit; }
-
-    .page {
-      width: min(920px, calc(100% - 24px));
-      margin: auto;
-      padding: 24px 0 48px;
-    }
-
-    .hero {
-      padding: 30px 28px;
-      color: #fff;
-      background: linear-gradient(135deg, var(--blue), var(--dark-blue));
-      border-radius: 20px;
-      box-shadow: 0 8px 24px #17324d22;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 3.1rem);
-      line-height: 1.25;
-      letter-spacing: .04em;
-    }
-
-    .subtitle {
-      margin: 7px 0 0;
-      font-size: clamp(1.25rem, 3vw, 1.6rem);
-      font-weight: bold;
-    }
-
-    .content {
-      margin-top: 26px;
-      padding: 28px;
-      background: #fff;
-      border: 1px solid #e2ebf0;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px #17324d22;
-    }
-
-    .section-heading {
-      margin: 0 0 20px;
-      font-size: clamp(1.4rem, 3vw, 1.8rem);
-    }
-
-    .request-list {
-      display: grid;
-      gap: 18px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .request-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 20px;
-      align-items: center;
-      padding: 22px;
-      border: 3px solid var(--line);
-      border-radius: 18px;
-      background: #fff;
-    }
-
-    .room-number {
-      margin: 0;
-      color: var(--dark-blue);
-      font-size: clamp(1.5rem, 4vw, 2.1rem);
-      font-weight: bold;
-      line-height: 1.3;
-    }
-
-    .request-text {
-      margin: 7px 0 9px;
-      font-size: clamp(1.2rem, 3vw, 1.55rem);
-      font-weight: bold;
-      line-height: 1.45;
-    }
-
-    .request-time {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-      font-weight: bold;
-    }
-
-    .status {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 5px 13px;
-      border-radius: 999px;
-      font-size: 1.05rem;
-      font-weight: bold;
-    }
-
-    .status.pending {
-      color: var(--pending-text);
-      background: var(--pending-bg);
-    }
-
-    .status.done {
-      color: var(--done-text);
-      background: var(--done-bg);
-    }
-
-    .confirm-button {
-      min-width: 150px;
-      min-height: 72px;
-      padding: 14px 20px;
-      color: #fff;
-      background: var(--blue);
-      border: 0;
-      border-radius: 14px;
-      box-shadow: 0 5px 0 var(--dark-blue);
-      cursor: pointer;
-      font-size: 1.25rem;
-      font-weight: bold;
-    }
-
-    .confirm-button:hover:not(:disabled) { background: var(--dark-blue); }
-
-    .confirm-button:focus-visible {
-      outline: 4px solid #f3c95b;
-      outline-offset: 3px;
-    }
-
-    .confirm-button:disabled {
-      color: var(--done-text);
-      background: var(--done-bg);
-      box-shadow: none;
-      cursor: default;
-    }
-
-    @media (max-width: 620px) {
-      .page { padding-top: 10px; }
-      .hero, .content { padding: 22px 18px; border-radius: 16px; }
-      .request-card { grid-template-columns: 1fr; gap: 16px; padding: 18px; }
-      .confirm-button { width: 100%; }
-    }
+    :root { --page-bg:#FFFDF7; --heading:#1F3A5F; --text:#222; --button:#2F6FA3; --button-text:#FFF; --selected-bg:#EAF4FB; --border:#AEB8C2; --attention:#B23A48; --completed:#35652D; --completed-bg:#F0F8EE; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--text); background:var(--page-bg); font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic",Meiryo,sans-serif; font-size:18px; line-height:1.6; }
+    button { font:inherit; }
+    .page { width:min(920px,calc(100% - 24px)); margin:auto; padding:24px 0 48px; }
+    .hero { padding:30px 28px; color:var(--button-text); background:linear-gradient(135deg,var(--button),var(--heading)); border-radius:20px; box-shadow:0 8px 24px rgba(31,58,95,.16); }
+    h1 { margin:0; font-size:clamp(2rem,5vw,3.1rem); line-height:1.25; letter-spacing:.04em; }
+    .subtitle { margin:7px 0 0; font-size:clamp(1.25rem,3vw,1.6rem); font-weight:bold; }
+    .content { margin-top:26px; padding:28px; background:var(--button-text); border:1px solid var(--border); border-radius:20px; box-shadow:0 8px 24px rgba(31,58,95,.16); }
+    .section-heading { margin:0 0 20px; color:var(--heading); font-size:clamp(1.4rem,3vw,1.8rem); }
+    .tabs { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:22px; }
+    .tab { min-height:60px; padding:10px 14px; color:var(--heading); background:var(--button-text); border:3px solid var(--border); border-radius:14px; cursor:pointer; font-size:1.2rem; font-weight:bold; }
+    .tab[aria-selected="true"] { color:var(--button-text); background:var(--button); border-color:var(--button); }
+    .request-list { display:grid; gap:18px; margin:0; padding:0; list-style:none; }
+    .request-card { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px; align-items:center; padding:22px; border:3px solid var(--border); border-radius:18px; background:var(--button-text); }
+    .request-card.completed { border-color:#7AA870; background:var(--completed-bg); }
+    .room-number { margin:0; color:var(--heading); font-size:clamp(1.5rem,4vw,2.1rem); font-weight:bold; line-height:1.3; }
+    .request-text { margin:7px 0 9px; font-size:clamp(1.2rem,3vw,1.55rem); font-weight:bold; line-height:1.45; }
+    .request-time, .completion-time { margin:0; font-size:1.05rem; font-weight:bold; }
+    .status { display:inline-block; margin-top:12px; padding:5px 13px; border-radius:999px; font-size:1.05rem; font-weight:bold; }
+    .status.pending { color:var(--attention); background:var(--selected-bg); border:2px solid var(--attention); }
+    .status.confirmed { color:var(--heading); background:var(--selected-bg); border:2px solid var(--button); }
+    .status.completed { color:var(--completed); background:var(--completed-bg); border:2px solid #5C8D4E; }
+    .action-stack { display:grid; gap:12px; }
+    .action-button { min-width:150px; min-height:64px; padding:12px 18px; color:var(--button-text); background:var(--button); border:0; border-radius:14px; box-shadow:0 5px 0 var(--heading); cursor:pointer; font-size:1.2rem; font-weight:bold; }
+    .action-button.complete { background:var(--completed); box-shadow:0 5px 0 #24481F; }
+    .action-button:hover:not(:disabled) { filter:brightness(.9); }
+    .action-button:focus-visible, .tab:focus-visible, .calendar-day:focus-visible, .month-button:focus-visible { outline:4px solid var(--attention); outline-offset:3px; }
+    .action-button:disabled { color:var(--heading); background:var(--selected-bg); box-shadow:none; cursor:default; }
+    .completion-time { margin-top:10px; color:var(--completed); font-size:1.15rem; }
+    .empty { display:block; padding:22px; border:3px dashed var(--border); border-radius:16px; font-size:1.2rem; font-weight:bold; text-align:center; }
+    .calendar-header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; }
+    .month-label { margin:0; color:var(--heading); font-size:clamp(1.5rem,4vw,2rem); }
+    .month-button { min-width:78px; min-height:54px; color:var(--heading); background:var(--button-text); border:3px solid var(--border); border-radius:12px; cursor:pointer; font-size:1.15rem; font-weight:bold; }
+    .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+    .weekday { padding:6px 2px; color:var(--heading); text-align:center; font-weight:bold; }
+    .calendar-day { min-height:76px; padding:6px 3px; color:var(--text); background:var(--button-text); border:2px solid var(--border); border-radius:10px; cursor:pointer; font-weight:bold; }
+    .calendar-day.empty-day { visibility:hidden; cursor:default; }
+    .calendar-day.today { border:4px solid var(--attention); }
+    .calendar-day.selected { background:var(--selected-bg); border-color:var(--button); }
+    .day-number { display:block; font-size:1.2rem; }
+    .day-count { display:block; margin-top:4px; color:var(--heading); font-size:.95rem; }
+    .day-details { margin-top:20px; padding:18px; background:var(--page-bg); border-left:5px solid var(--button); border-radius:8px; }
+    .day-details h3 { margin:0 0 12px; color:var(--heading); font-size:1.35rem; }
+    .day-details p { margin:8px 0; font-size:1.1rem; font-weight:bold; }
+    @media (max-width:620px) { .page{padding-top:10px;} .hero,.content{padding:22px 18px;border-radius:16px;} .request-card{grid-template-columns:1fr;gap:16px;padding:18px;} .action-button{width:100%;} .calendar-grid{gap:3px;} .calendar-day{min-height:68px;padding:4px 1px;} .day-count{font-size:.8rem;} }
   </style>
 </head>
 <body>
   <main class="page">
-    <header class="hero">
-      <h1>サポートコール</h1>
-      <p class="subtitle">スタッフ用画面</p>
-    </header>
-
-    <section class="content" aria-labelledby="request-title">
-      <h2 id="request-title" class="section-heading">届いている依頼</h2>
+    <header class="hero"><h1>サポートコール</h1><p class="subtitle">スタッフ用画面</p></header>
+    <section class="content" aria-labelledby="request-title"><h2 id="request-title" class="section-heading">依頼管理</h2>
+      <div class="tabs" role="tablist" aria-label="依頼の表示切替"><button id="active-tab" class="tab" type="button" role="tab" aria-selected="true">対応中</button><button id="history-tab" class="tab" type="button" role="tab" aria-selected="false">対応履歴</button></div>
       <ul id="request-list" class="request-list" aria-live="polite"></ul>
     </section>
+    <section class="content" aria-labelledby="calendar-title"><h2 id="calendar-title" class="section-heading">対応カレンダー</h2>
+      <div class="calendar-header"><button id="previous-month" class="month-button" type="button">前月</button><h3 id="month-label" class="month-label"></h3><button id="next-month" class="month-button" type="button">次月</button></div>
+      <div id="calendar" class="calendar-grid" aria-label="対応カレンダー"></div><div id="day-details" class="day-details" aria-live="polite">日付を選ぶと、その日の対応履歴を表示します。</div>
+    </section>
   </main>
-
   <script>
-    const requestList = document.querySelector('#request-list');
-    const roomNumber = sessionStorage.getItem('roomNumber');
-    const requestContent = sessionStorage.getItem('requestContent');
-    const requests = roomNumber && requestContent ? [{
-      room: `${roomNumber}号室`,
-      text: requestContent,
-      time: new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' }),
-      status: '未確認'
-    }] : [];
-
-    function renderRequests() {
-      if (requests.length === 0) {
-        const empty = document.createElement('li');
-        empty.className = 'request-card';
-        empty.textContent = '現在、依頼はありません';
-        requestList.replaceChildren(empty);
-        return;
-      }
-
-      requestList.replaceChildren(...requests.map((request, index) => {
-        const item = document.createElement('li');
-        item.className = 'request-card';
-
-        const details = document.createElement('div');
-        const room = document.createElement('p');
-        room.className = 'room-number';
-        room.textContent = request.room;
-
-        const text = document.createElement('p');
-        text.className = 'request-text';
-        text.textContent = request.text;
-
-        const time = document.createElement('p');
-        time.className = 'request-time';
-        time.textContent = `依頼時刻 ${request.time}`;
-
-        const status = document.createElement('span');
-        status.className = `status ${request.status === '確認済み' ? 'done' : 'pending'}`;
-        status.textContent = request.status;
-
-        details.append(room, text, time, status);
-
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'confirm-button';
-        button.textContent = request.status === '確認済み' ? '確認済み' : '確認する';
-        button.disabled = request.status === '確認済み';
-        button.setAttribute('aria-label', `${request.room}の依頼を確認する`);
-        button.addEventListener('click', () => {
-          requests[index].status = '確認済み';
-          renderRequests();
-        });
-
-        item.append(details, button);
-        return item;
-      }));
-    }
-
-    renderRequests();
+    const REQUESTS_KEY='supportCallRequests', requestList=document.querySelector('#request-list'); let view='active', calendarDate=new Date(), selectedDateKey=null;
+    function getRequests(){try{return JSON.parse(localStorage.getItem(REQUESTS_KEY)||'[]')}catch(error){return[]}}
+    function saveRequests(requests){localStorage.setItem(REQUESTS_KEY,JSON.stringify(requests))}
+    function formatTime(value){return new Intl.DateTimeFormat('ja-JP',{hour:'2-digit',minute:'2-digit'}).format(new Date(value))}
+    function formatDateTime(value){return new Intl.DateTimeFormat('ja-JP',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value))}
+    function dateKey(value){const date=new Date(value);return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
+    function migrateLegacyRequest(){if(getRequests().length)return;const room=sessionStorage.getItem('roomNumber'),text=sessionStorage.getItem('requestContent');if(room&&text)saveRequests([{id:`legacy-${Date.now()}`,roomNumber:room,requestContent:text,requestedAt:new Date().toISOString(),status:'pending',confirmedAt:null,completedAt:null}])}
+    function updateRequest(id,changes){saveRequests(getRequests().map(request=>request.id===id?{...request,...changes}:request));renderRequests();renderCalendar()}
+    function renderRequests(){const requests=getRequests().filter(request=>view==='active'?request.status!=='completed':request.status==='completed');if(!requests.length){const empty=document.createElement('li');empty.className='empty';empty.textContent=view==='active'?'現在、対応中の依頼はありません':'対応履歴はありません';requestList.replaceChildren(empty);return}requestList.replaceChildren(...requests.map(request=>{const item=document.createElement('li');item.className=`request-card${request.status==='completed'?' completed':''}`;const details=document.createElement('div'),room=document.createElement('p'),text=document.createElement('p'),time=document.createElement('p'),status=document.createElement('span');room.className='room-number';room.textContent=`${request.roomNumber}号室`;text.className='request-text';text.textContent=request.requestContent;time.className='request-time';time.textContent=`依頼日時 ${formatDateTime(request.requestedAt)}`;status.className=`status ${request.status}`;status.textContent=request.status==='pending'?'未確認':request.status==='confirmed'?'確認済み':'対応済み';details.append(room,text,time,status);if(request.completedAt){const completed=document.createElement('p');completed.className='completion-time';completed.textContent=`対応終了日時 ${formatDateTime(request.completedAt)}`;details.append(completed)}const actions=document.createElement('div');actions.className='action-stack';if(request.status!=='completed'){const confirm=document.createElement('button');confirm.type='button';confirm.className='action-button';confirm.textContent=request.status==='confirmed'?'確認済み':'確認する';confirm.disabled=request.status==='confirmed';confirm.addEventListener('click',()=>updateRequest(request.id,{status:'confirmed',confirmedAt:new Date().toISOString()}));const complete=document.createElement('button');complete.type='button';complete.className='action-button complete';complete.textContent='対応終了';complete.addEventListener('click',()=>updateRequest(request.id,{status:'completed',completedAt:new Date().toISOString()}));actions.append(confirm,complete)}item.append(details,actions);return item}))}
+    function renderCalendar(){const year=calendarDate.getFullYear(),month=calendarDate.getMonth(),completed=getRequests().filter(request=>request.status==='completed'&&request.completedAt);document.querySelector('#month-label').textContent=`${year}年${month+1}月`;const calendar=document.querySelector('#calendar');calendar.replaceChildren();['日','月','火','水','木','金','土'].forEach(day=>{const cell=document.createElement('div');cell.className='weekday';cell.textContent=day;calendar.append(cell)});const firstDay=new Date(year,month,1).getDay(),days=new Date(year,month+1,0).getDate(),today=dateKey(new Date());for(let i=0;i<firstDay;i++){const blank=document.createElement('div');blank.className='calendar-day empty-day';calendar.append(blank)}for(let day=1;day<=days;day++){const key=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`,entries=completed.filter(request=>dateKey(request.completedAt)===key),button=document.createElement('button');button.type='button';button.className=`calendar-day${key===today?' today':''}${key===selectedDateKey?' selected':''}`;button.innerHTML=`<span class="day-number">${day}</span><span class="day-count">${entries.length?`${entries.length}件`:''}</span>`;button.setAttribute('aria-label',`${month+1}月${day}日${entries.length?` 対応${entries.length}件`:''}`);button.addEventListener('click',()=>{selectedDateKey=key;renderCalendar();renderDayDetails(key)});calendar.append(button)}}
+    function renderDayDetails(key){const details=document.querySelector('#day-details'),entries=getRequests().filter(request=>request.status==='completed'&&request.completedAt&&dateKey(request.completedAt)===key);if(!entries.length){details.textContent='この日の対応履歴はありません。';return}const [year,month,day]=key.split('-').map(Number);details.replaceChildren();const heading=document.createElement('h3');heading.textContent=`${month}月${day}日の対応`;details.append(heading);entries.forEach(request=>{const row=document.createElement('p');row.textContent=`${request.roomNumber}号室　${request.requestContent}　${formatTime(request.completedAt)} 対応終了`;details.append(row)})}
+    document.querySelector('#active-tab').addEventListener('click',()=>{view='active';document.querySelector('#active-tab').setAttribute('aria-selected','true');document.querySelector('#history-tab').setAttribute('aria-selected','false');renderRequests()});document.querySelector('#history-tab').addEventListener('click',()=>{view='history';document.querySelector('#active-tab').setAttribute('aria-selected','false');document.querySelector('#history-tab').setAttribute('aria-selected','true');renderRequests()});document.querySelector('#previous-month').addEventListener('click',()=>{calendarDate.setMonth(calendarDate.getMonth()-1);selectedDateKey=null;renderCalendar();document.querySelector('#day-details').textContent='日付を選ぶと、その日の対応履歴を表示します。'});document.querySelector('#next-month').addEventListener('click',()=>{calendarDate.setMonth(calendarDate.getMonth()+1);selectedDateKey=null;renderCalendar();document.querySelector('#day-details').textContent='日付を選ぶと、その日の対応履歴を表示します。'});window.addEventListener('storage',()=>{renderRequests();renderCalendar();if(selectedDateKey)renderDayDetails(selectedDateKey)});migrateLegacyRequest();renderRequests();renderCalendar();
   </script>
 </body>
 </html>
